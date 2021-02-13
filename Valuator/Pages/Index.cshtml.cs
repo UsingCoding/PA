@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
 using Valuator.Common.Infrastructure.Repository;
 
 namespace Valuator.Pages
 {
     public class IndexModel : PageModel
     {
+        
         private readonly ILogger<IndexModel> _logger;
         private readonly IKeyValueStorageClient _storageClient;
 
@@ -30,18 +28,44 @@ namespace Valuator.Pages
         {
             _logger.LogDebug(text);
 
-            string id = Guid.NewGuid().ToString();
+            var id = Guid.NewGuid().ToString();
 
-            string textKey = "TEXT-" + id;
-            //TODO: сохранить в БД text по ключу textKey
+            var textKey = "TEXT-" + id;
+            _storageClient.Save(textKey, text);
 
-            string rankKey = "RANK-" + id;
-            //TODO: посчитать rank и сохранить в БД по ключу rankKey
+            var rankKey = "RANK-" + id;
+            _storageClient.Save(rankKey, CalculateRank(text).ToString());
 
-            string similarityKey = "SIMILARITY-" + id;
-            //TODO: посчитать similarity и сохранить в БД по ключу similarityKey
+            var similarityKey = "SIMILARITY-" + id;
+            _storageClient.Save(similarityKey, IsSimilarity(text) ? "1" : "0");
 
             return Redirect($"summary?id={id}");
+        }
+
+        private static double CalculateRank(string text)
+        {
+            var regexp = new Regex(@"[A-Z,a-z,А-Я,а-я]");
+            var nonAlphabetCharsCount = 0;
+
+            foreach (var ch in text)
+            {
+                if (!regexp.IsMatch(ch.ToString()))
+                {
+                    nonAlphabetCharsCount++;
+                }
+            }
+
+            if (nonAlphabetCharsCount == 0)
+            {
+                return 0;
+            }
+
+            return Math.Round(nonAlphabetCharsCount / (double) text.Length, 2);
+        }
+
+        private bool IsSimilarity(string text)
+        {
+            return true;
         }
     }
 }
