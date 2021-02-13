@@ -2,7 +2,9 @@
 @model AboutModel
 @{
     ViewData["Title"] = "О приложении";
+    ViewData["Name"] = "Vadim Makerov";
+    ViewData["Group"] = "PS-33";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Студент: Имя Студента, Группа</p>
+<p>Студент: @ViewData["Name"], @ViewData["Group"]</p>
