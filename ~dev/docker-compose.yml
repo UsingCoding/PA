@@ -13,7 +13,9 @@ services:
         ports:
             - 5000:5000
             - 5001:5001
-    
+        env_file:
+            - ../Valuator/.env
+        
 #    nginx:
 #        image: nginx:latest
 #        container_name: dotnet_app_nginx

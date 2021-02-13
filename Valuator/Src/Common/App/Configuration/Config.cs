@@ -2,8 +2,13 @@ namespace Valuator.Common.App.Configuration
 {
     public class Config : IConfigurationProvider
     {
-        private string _redisHost = "dotnet_app_redis";
-        
-        string IConfigurationProvider.RedisHost() => _redisHost;
+        private const string RedisHost = "REDIS_HOST";
+
+        string IConfigurationProvider.RedisHost() => GetFromEnv(RedisHost);
+
+        private string GetFromEnv(string key)
+        {
+            return System.Environment.GetEnvironmentVariable(key);
+        }
     }
 }
