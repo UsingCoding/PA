@@ -1,17 +1,18 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using Valuator.Common.App.Configuration;
-using Valuator.Common.Infrastructure.Repository;
+using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Infrastructure.Redis
 {
-    public class RedisClient : IKeyValueStorageClient
+    public class RedisStorage : IStorage
     {
-        private readonly ILogger<RedisClient> _logger;
+        private readonly ILogger<RedisStorage> _logger;
         private readonly IDatabase _db;
         
-        public RedisClient(ILogger<RedisClient> logger, IConfigurationProvider configurationProvider)
+        public RedisStorage(ILogger<RedisStorage> logger, IConfigurationProvider configurationProvider)
         {
             _logger = logger;
             
@@ -32,6 +33,17 @@ namespace Valuator.Infrastructure.Redis
             if (key == null) throw new InvalidOperationException("Trying to get null from redis");
             
             return _db.StringGet(key);
+        }
+
+        public List<string> GetAllTexts()
+        {
+            var textsKeys = (RedisResult[])_db.Execute("keys", "TEXT-*");
+            var texts = new List<string>();
+            foreach (RedisResult key in textsKeys)
+            {
+                texts.Add(Get(key.ToString()));
+            }
+            return texts;
         }
     }
 }

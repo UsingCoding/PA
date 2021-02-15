@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Valuator.Common.Infrastructure.Repository;
+using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Pages
 {
@@ -10,12 +10,12 @@ namespace Valuator.Pages
         private const string SimilarityPrefix = "SIMILARITY-";
         
         private readonly ILogger<SummaryModel> _logger;
-        private readonly IKeyValueStorageClient _storageClient;
+        private readonly IStorage _storage;
 
-        public SummaryModel(ILogger<SummaryModel> logger, IKeyValueStorageClient storageClient)
+        public SummaryModel(ILogger<SummaryModel> logger, IStorage storage)
         {
             _logger = logger;
-            _storageClient = storageClient;
+            _storage = storage;
         }
 
         public string Rank { get; set; }
@@ -25,8 +25,8 @@ namespace Valuator.Pages
         {
             _logger.LogDebug(id);
 
-            Rank = _storageClient.Get(RankPrefix + id);
-            Similarity = _storageClient.Get(SimilarityPrefix + id);
+            Rank = _storage.Get(RankPrefix + id);
+            Similarity = _storage.Get(SimilarityPrefix + id);
         }
     }
 }

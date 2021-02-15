@@ -5,8 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Valuator.Common.App.Configuration;
-using Valuator.Common.Infrastructure.Repository;
 using Valuator.Infrastructure.Redis;
+using Valuator.Infrastructure.Storage;
 using IConfigurationProvider = Valuator.Common.App.Configuration.IConfigurationProvider;
 
 namespace Valuator
@@ -25,7 +25,7 @@ namespace Valuator
         {
             services.AddRazorPages();
             services.AddScoped<IConfigurationProvider, Config>();
-            services.AddScoped<IKeyValueStorageClient, RedisClient>();
+            services.AddScoped<IStorage, RedisStorage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

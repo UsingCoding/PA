@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Valuator.Common.Infrastructure.Repository;
+using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Pages
 {
@@ -11,12 +11,12 @@ namespace Valuator.Pages
     {
         
         private readonly ILogger<IndexModel> _logger;
-        private readonly IKeyValueStorageClient _storageClient;
+        private readonly IStorage _storage;
 
-        public IndexModel(ILogger<IndexModel> logger, IKeyValueStorageClient storageClient)
+        public IndexModel(ILogger<IndexModel> logger, IStorage storage)
         {
             _logger = logger;
-            _storageClient = storageClient;
+            _storage = storage;
         }
 
         public void OnGet()
@@ -30,14 +30,14 @@ namespace Valuator.Pages
 
             var id = Guid.NewGuid().ToString();
 
-            var textKey = "TEXT-" + id;
-            _storageClient.Save(textKey, text);
-
             var rankKey = "RANK-" + id;
-            _storageClient.Save(rankKey, CalculateRank(text).ToString());
+            _storage.Save(rankKey, CalculateRank(text).ToString());
 
             var similarityKey = "SIMILARITY-" + id;
-            _storageClient.Save(similarityKey, IsSimilarity(text) ? "1" : "0");
+            _storage.Save(similarityKey, IsSimilarity(text) ? "1" : "0");
+            
+            var textKey = "TEXT-" + id;
+            _storage.Save(textKey, text);
 
             return Redirect($"summary?id={id}");
         }
@@ -65,7 +65,8 @@ namespace Valuator.Pages
 
         private bool IsSimilarity(string text)
         {
-            return true;
+            var texts = _storage.GetAllTexts();
+            return texts.Exists(value => value == text);
         }
     }
 }
