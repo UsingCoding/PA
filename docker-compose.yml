@@ -1,20 +1,18 @@
 version: "3.3"
 
 services:
-    app:
-        image: vadimmakerov/dotnet:5.0
+    app-1: &app
+        image: vadimmakerov/valuator-app
         build:
-            context: .
-        container_name: dotnet_app
-        working_dir: /app/Valuator
-        command: dotnet run
+            context: ./Valuator
+        container_name: dotnet_app-1
         volumes:
-            - "../:/app"
-        ports:
-            - 5000:5000
-            - 5001:5001
+            - ./Valuator/wwwroot:/app/wwwroot
         env_file:
-            - ../Valuator/.env
+            - ./Valuator/.env
+            
+#    app-2: *app
+#        container_name: dotnet_app-2
         
     nginx:
         image: nginx:latest
@@ -24,7 +22,7 @@ services:
             - ./nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf
             - ./nginx/log:/var/log/nginx
         depends_on: 
-            - app
+            - app-1
         ports:
             - 80:80
             - 443:443
