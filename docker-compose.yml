@@ -11,8 +11,9 @@ services:
         env_file:
             - ./Valuator/.env
             
-#    app-2: *app
-#        container_name: dotnet_app-2
+    app-2: 
+        <<: *app
+        container_name: dotnet_app-2
         
     nginx:
         image: nginx:latest
@@ -23,6 +24,7 @@ services:
             - ./nginx/log:/var/log/nginx
         depends_on: 
             - app-1
+            - app-2
         ports:
             - 80:80
             - 443:443
