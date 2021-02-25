@@ -6,6 +6,8 @@ services:
         build:
             context: ./Valuator
         container_name: valuator-app-1
+        ports:
+            - 5000:5000   
         volumes:
             - ./Valuator/wwwroot:/app/wwwroot
         env_file:
@@ -20,6 +22,8 @@ services:
     app-2: 
         <<: *app
         container_name: valuator-app-2
+        ports:
+            - 5001:5000
         networks:
             default:
                 aliases:
@@ -28,6 +32,8 @@ services:
     app-3:
         <<: *app
         container_name: valuator-app-3
+        ports:
+            - 5002:5000
         networks:
             default:
                 aliases:
@@ -44,6 +50,7 @@ services:
         depends_on: 
             - app-1
             - app-2
+            - app-3
         ports:
             - 80:80
             - 443:443
