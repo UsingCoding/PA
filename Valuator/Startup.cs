@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Valuator.Common.App.Configuration;
+using Valuator.Common.App.Service;
+using Valuator.Infrastructure.MessageBroker;
+using Valuator.Infrastructure.Nats;
 using Valuator.Infrastructure.Redis;
 using Valuator.Infrastructure.Storage;
 using IConfigurationProvider = Valuator.Common.App.Configuration.IConfigurationProvider;
@@ -26,6 +29,8 @@ namespace Valuator
             services.AddRazorPages();
             services.AddScoped<IConfigurationProvider, Config>();
             services.AddScoped<IStorage, RedisStorage>();
+            services.AddScoped<IMessageBroker, NatsMessageBroker>();
+            services.AddScoped<CalculateRankSchedulerService, CalculateRankSchedulerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

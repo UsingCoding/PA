@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Valuator.Common.App.Service;
 using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Pages
@@ -12,11 +13,13 @@ namespace Valuator.Pages
         
         private readonly ILogger<IndexModel> _logger;
         private readonly IStorage _storage;
+        private readonly CalculateRankSchedulerService _service;
 
-        public IndexModel(ILogger<IndexModel> logger, IStorage storage)
+        public IndexModel(ILogger<IndexModel> logger, IStorage storage, CalculateRankSchedulerService service)
         {
             _logger = logger;
             _storage = storage;
+            _service = service;
         }
 
         public void OnGet()
@@ -36,8 +39,7 @@ namespace Valuator.Pages
             var similarityKey = "SIMILARITY-" + id;
             _storage.Save(similarityKey, IsSimilarity(text) ? "1" : "0");
             
-            var textKey = "TEXT-" + id;
-            _storage.Save(textKey, text);
+            _service.PostCalculateRankMessage(text);
 
             return Redirect($"summary?id={id}");
         }
