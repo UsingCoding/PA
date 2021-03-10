@@ -1,10 +1,10 @@
 .PHONY: up
 up:
-	./scripts/start.sh
+	cd scripts && ./start.sh
 
 .PHONY: down
 down:
-	./scripts/stop.sh
+	cd scripts && ./stop.sh
 
 .PHONY: build
 build:

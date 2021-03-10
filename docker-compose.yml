@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.5"
 
 services:
     app-1: &app
@@ -15,9 +15,9 @@ services:
         depends_on:
             - redis
         networks:
-            default:
+            valuator_net:
                 aliases:
-                    - valuator-app-1
+                    - valuator-app-1    
             
     app-2: 
         <<: *app
@@ -25,7 +25,7 @@ services:
         ports:
             - 5001:5000
         networks:
-            default:
+            valuator_net:
                 aliases:
                     - valuator-app-2
 
@@ -35,7 +35,7 @@ services:
         ports:
             - 5002:5000
         networks:
-            default:
+            valuator_net:
                 aliases:
                     - valuator-app-3
 
@@ -43,6 +43,8 @@ services:
     nginx:
         image: nginx:latest
         container_name: valuator-nginx
+        networks:
+            - valuator_net
         restart: always
         volumes:
             - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
@@ -58,6 +60,8 @@ services:
     redis:
         image: redis
         container_name: valuator-redis
+        networks:
+            - valuator_net
         volumes:
             - "redis-dev-data:/data/storage"
             - "./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf"
@@ -66,6 +70,14 @@ services:
             - "/usr/local/etc/redis/"
         ports:
             - "6379:6379"
-
+    
+    nats:
+        image: nats
+        container_name: valuator-nats
+        networks:
+            - valuator_net
+        
+networks:
+    valuator_net: 
 volumes: 
-    redis-dev-data:    
+    redis-dev-data: 

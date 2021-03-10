@@ -1,0 +1,18 @@
+version: "3.5"
+
+services:
+    rank-calculator-app:
+        container_name: rank-calculator-app
+        env_file:
+            -  .env
+        image: vadimmakerov/rank-calculator-app
+        build:
+            dockerfile: Dockerfile
+            context: .
+        tty: true
+        stdin_open: true
+        
+networks:
+    default:
+        external: 
+            name: ${COMPOSE_NETWORK}
