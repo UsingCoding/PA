@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Valuator.Common.App.Configuration;
+using Valuator.Common.App.Event;
 using Valuator.Common.App.Service;
 using Valuator.Infrastructure.MessageBroker;
 using Valuator.Infrastructure.Nats;
@@ -31,6 +32,8 @@ namespace Valuator
             services.AddScoped<IStorage, RedisStorage>();
             services.AddScoped<IMessageBroker, NatsMessageBroker>();
             services.AddScoped<CalculateRankSchedulerService, CalculateRankSchedulerService>();
+            services.AddScoped<IEventDispatcher, MessageBrokerEventDispatcher>();
+            services.AddScoped<SimilarityCalculationService, SimilarityCalculationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
