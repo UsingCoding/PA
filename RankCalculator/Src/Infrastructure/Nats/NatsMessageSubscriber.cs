@@ -23,7 +23,6 @@ namespace RankCalculator.Infrastructure.Nats
             var conn = GetConnection();
             var subscription = conn.SubscribeAsync(channel, queueName,(sender, args) =>
             {
-                Console.WriteLine("Received + " + args.Message);
                 handler(args.Message.Data);
             });
 

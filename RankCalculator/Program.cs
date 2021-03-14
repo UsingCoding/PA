@@ -1,6 +1,6 @@
 using System;
-using System.Text;
 using RankCalculator.App.Configuration;
+using RankCalculator.App.Handler;
 using RankCalculator.Infrastructure.Nats;
 using RankCalculator.Infrastructure.Redis;
 
@@ -14,15 +14,10 @@ namespace RankCalculator
             
             var storage = new RedisStorage(config);
             var messageBroker = new NatsMessageSubscriber(config);
+
+            var handler = new CalculateRankMessageHandler(storage);
                 
-             var subscription = messageBroker.Subscribe("valuator.processing.rank", "rank_calculator", data =>
-             {
-                 var taskId = Encoding.UTF8.GetString(data);
-                 
-                 Console.WriteLine("Processing task - {0}", taskId);
-                 
-                 
-             });
+             var subscription = messageBroker.Subscribe("valuator.processing.rank", "rank_calculator", handler.Handle);
              
              Console.WriteLine("RankCalculator started"); 
              Console.WriteLine("Press Enter to exit");

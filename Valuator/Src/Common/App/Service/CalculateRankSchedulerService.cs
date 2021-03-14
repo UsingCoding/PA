@@ -10,24 +10,20 @@ namespace Valuator.Common.App.Service
   {
       private class CalculateRankTaskData
       {
-          private readonly string _text;
-          private bool _handled = false;
-
-          public CalculateRankTaskData(string text)
+          public CalculateRankTaskData(string text, string saveRankId)
           {
-              _text = text;
+              Text = text;
+              SaveRankId = saveRankId;
           }
 
-          public string Text => _text;
+          public string Text { get; }
+          public string SaveRankId { get; set; }
 
-          public bool Handled
-          {
-              get => _handled;
-              set => _handled = value;
-          }
+          public bool Handled { get; set; } = false;
       }
 
       private const string TaskKeyPrefix = "CALC-RANK-";
+      private const string SaveRankKeyPrefix = "RANK-";
       private const string RankCalculatorChannel = "valuator.processing.rank";
 
       private readonly IStorage _storage;
@@ -39,11 +35,11 @@ namespace Valuator.Common.App.Service
           _messageBroker = messageBroker;
       }
 
-      public void PostCalculateRankMessage(string text)
+      public void PostCalculateRankMessage(string text, string textId)
       {
           var id = Guid.NewGuid().ToString();
 
-          var taskData = new CalculateRankTaskData(text);
+          var taskData = new CalculateRankTaskData(text, SaveRankKeyPrefix + textId);
 
           var serializedTaskData = JsonSerializer.Serialize(taskData);
 

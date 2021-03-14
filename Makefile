@@ -9,3 +9,7 @@ down:
 .PHONY: build
 build:
 	docker-compose build
+
+.PHONY: logs
+logs:
+	docker-compose logs -f
