@@ -14,6 +14,7 @@ services:
             - ./Valuator/.env
         depends_on:
             - redis
+            - nats
         networks:
             valuator_net:
                 aliases:
@@ -39,6 +40,26 @@ services:
                 aliases:
                     - valuator-app-3
 
+
+    events-logger-1: &events-logger
+        image: vadimmakerov/events-logger
+        build:
+            context: ./EventsLogger
+        container_name: events-logger-1
+        stdin_open: true
+        tty: true
+        env_file:
+            - ./EventsLogger/.env
+        depends_on:
+            - app-1
+            - app-2
+            - app-3
+        networks:
+            - valuator_net
+
+    events-logger-2: 
+        <<: *events-logger
+        container_name: events-logger-2
 
     nginx:
         image: nginx:latest
