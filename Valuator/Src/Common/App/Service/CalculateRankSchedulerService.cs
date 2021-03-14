@@ -26,10 +26,10 @@ namespace Valuator.Common.App.Service
               set => _handled = value;
           }
       }
-      
-      private readonly string TaskKeyPrefix = "CALC-RANK-";
-      private readonly string RankCalculatorChannel = "valuator.calculate_rank";
-      
+
+      private const string TaskKeyPrefix = "CALC-RANK-";
+      private const string RankCalculatorChannel = "valuator.processing.rank";
+
       private readonly IStorage _storage;
       private readonly IMessageBroker _messageBroker;
 
