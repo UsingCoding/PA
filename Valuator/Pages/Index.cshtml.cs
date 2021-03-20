@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Common.Infrastructure.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Valuator.Common.App.Service;
-using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Pages
 {

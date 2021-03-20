@@ -1,6 +1,6 @@
 using System;
 using Common.Infrastructure.Redis;
-using RankCalculator.App.Configuration;
+using RankCalculator.Infrastructure.Configuration;
 using RankCalculator.App.Handler;
 using RankCalculator.Infrastructure.Nats;
 

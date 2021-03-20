@@ -1,4 +1,4 @@
-FROM vadimmakerov/dotnet-core:5.0 as final
+FROM vadimmakerov/dotnet-core:5.0
 
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 

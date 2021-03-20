@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../.." />
+    <content url="file://$MODULE_DIR$/../..">
+      <excludeFolder url="file://$MODULE_DIR$/../../Common/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../RankCalculator/bin/Debug" />
+      <excludeFolder url="file://$MODULE_DIR$/../../RankCalculator/bin/RankCalculator" />
+      <excludeFolder url="file://$MODULE_DIR$/../../RankCalculator/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Valuator/bin/Debug" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Valuator/bin/Release" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Valuator/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../nginx/log" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

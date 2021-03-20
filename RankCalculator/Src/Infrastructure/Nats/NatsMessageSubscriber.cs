@@ -1,6 +1,5 @@
-using System;
 using NATS.Client;
-using RankCalculator.App.Configuration;
+using RankCalculator.Infrastructure.Configuration;
 using RankCalculator.Infrastructure.MessageSubscriber;
 using ISubscription = RankCalculator.Infrastructure.MessageSubscriber.ISubscription;
 

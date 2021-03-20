@@ -1,11 +1,13 @@
-namespace RankCalculator.App.Configuration
+using Common.Infrastructure.Redis;
+
+namespace RankCalculator.Infrastructure.Configuration
 {
     public class Config : IConfigurationProvider
     {
         private const string RedisHost = "REDIS_HOST";
         private const string NatsUrl = "NATS_URL";
 
-        string IConfigurationProvider.RedisHost() => GetFromEnv(RedisHost);
+        string RedisStorage.IConfig.RedisHost() => GetFromEnv(RedisHost);
 
         string IConfigurationProvider.NatsUrl() => GetFromEnv(NatsUrl);
 
