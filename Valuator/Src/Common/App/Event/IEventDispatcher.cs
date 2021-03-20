@@ -4,14 +4,14 @@ namespace Valuator.Common.App.Event
     {
         public class Event
         {
-            public Event(string type, byte[] payload)
+            public Event(string type, string payload)
             {
                 Type = type;
                 Payload = payload;
             }
 
             public string Type { get; }
-            public byte[] Payload { get; }
+            public string Payload { get; }
         }
 
         public void Dispatch(Event e);

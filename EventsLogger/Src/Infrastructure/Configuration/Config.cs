@@ -1,10 +1,10 @@
-namespace EventsLogger.App.Configuration
+namespace EventsLogger.Infrastructure.Configuration
 {
     public class Config : IConfigurationProvider
     {
-        private const string NatsUrl = "NATS_URL";
+        private const string NatsUrlKey = "NATS_URL";
 
-        string IConfigurationProvider.NatsUrl() => GetFromEnv(NatsUrl);
+        public string NatsUrl() => GetFromEnv(NatsUrlKey);
         
 
         private static string GetFromEnv(string key)

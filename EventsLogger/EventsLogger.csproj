@@ -10,4 +10,76 @@
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="..\Common\Infrastructure\Nats\Event">
+      <Link>Common\Infrastructure\Nats\Event</Link>
+    </Folder>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Common\.gitignore">
+      <Link>Common\.gitignore</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\.gitignore">
+      <Link>Common\.idea\.idea.Common.dir\.idea\.gitignore</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\contentModel.xml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\contentModel.xml</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\encodings.xml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\encodings.xml</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\indexLayout.xml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\indexLayout.xml</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\modules.xml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\modules.xml</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\riderModule.iml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\riderModule.iml</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\vcs.xml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\vcs.xml</Link>
+    </Content>
+    <Content Include="..\Common\.idea\.idea.Common.dir\.idea\workspace.xml">
+      <Link>Common\.idea\.idea.Common.dir\.idea\workspace.xml</Link>
+    </Content>
+    <Content Include="..\Common\Common.csproj">
+      <Link>Common\Common.csproj</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Common\App\Event\Event.cs">
+      <Link>Common\App\Event\Event.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\App\Event\IEventDispatcher.cs">
+      <Link>Common\App\Event\IEventDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\App\Event\IEventSource.cs">
+      <Link>Common\App\Event\IEventSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Event\MessageBroker\EventDispatcher.cs">
+      <Link>Common\Infrastructure\Event\MessageBroker\EventDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Event\MessageBroker\EventSubscription.cs">
+      <Link>Common\Infrastructure\Event\MessageBroker\EventSubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\MessageBroker\IMessageBroker.cs">
+      <Link>Common\Infrastructure\MessageBroker\IMessageBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Nats\MessageBroker\NatsMessageBroker.cs">
+      <Link>Common\Infrastructure\Nats\MessageBroker\NatsMessageBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Nats\MessageBroker\NatsSubscription.cs">
+      <Link>Common\Infrastructure\Nats\MessageBroker\NatsSubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Redis\RedisStorage.cs">
+      <Link>Common\Infrastructure\Redis\RedisStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Storage\IStorage.cs">
+      <Link>Common\Infrastructure\Storage\IStorage.cs</Link>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-using System.Text;
+using System;
 using System.Text.Json;
 using Common.Infrastructure.Storage;
 using Valuator.Common.App.Event;
@@ -16,12 +16,12 @@ namespace Valuator.Common.App.Service
         {
             public EventPayload(string textId, bool isSimilar)
             {
-                this.textId = textId;
-                this.isSimilar = isSimilar;
+                TextId = textId;
+                IsSimilar = isSimilar;
             }
 
-            public string textId;
-            public bool isSimilar;
+            public string TextId { get; }
+            public bool IsSimilar { get; }
         }
 
         public SimilarityCalculationService(IStorage storage, IEventDispatcher eventDispatcher)
@@ -40,7 +40,7 @@ namespace Valuator.Common.App.Service
 
             var serializedEventPayload = JsonSerializer.Serialize(new EventPayload(id, isSimilar));
 
-            var e = new IEventDispatcher.Event(SimilarityCalculatedEventType, Encoding.UTF8.GetBytes(serializedEventPayload));
+            var e = new IEventDispatcher.Event(SimilarityCalculatedEventType, serializedEventPayload);
             
             _eventDispatcher.Dispatch(e);
             

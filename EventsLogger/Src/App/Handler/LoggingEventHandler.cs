@@ -1,31 +1,35 @@
-using System.Text;
+using System;
+using System.Text.Json;
+using Common.App.Event;
 using EventsLogger.App.Logger;
-using EventsLogger.Infrastructure.EventSource;
 
 namespace EventsLogger.App.Handler
 {
     public class LoggingEventHandler : IEventSource.ISubscriber
     {
-        public struct LogRecord
+        public class SimilarityCalculatedEventPayload
         {
-            public string payload;
-
-            public LogRecord(string payload)
+            public SimilarityCalculatedEventPayload(string textId, bool isSimilar)
             {
-                this.payload = payload;
+                TextId = textId;
+                IsSimilar = isSimilar;
             }
+
+            public string TextId { get; }
+            public bool IsSimilar { get; }
         }
 
-        private readonly ILogger<LogRecord> _logger;
+        private readonly ILogger<SimilarityCalculatedEventPayload> _similarityEventLogger;
 
-        public LoggingEventHandler(ILogger<LogRecord> logger)
+        public LoggingEventHandler(ILogger<SimilarityCalculatedEventPayload> similarityEventLogger)
         {
-            _logger = logger;
+            _similarityEventLogger = similarityEventLogger;
         }
-
-        public void Handle(IEventSource.Event e)
+        
+        public void Handle(Common.App.Event.Event e)
         {
-            _logger.Info(new LogRecord(Encoding.UTF8.GetString(e.Payload)));
+            var payload = JsonSerializer.Deserialize<SimilarityCalculatedEventPayload>(e.Payload);
+            _similarityEventLogger.Info(payload);
         }
     }
 }

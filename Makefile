@@ -6,6 +6,9 @@ up:
 down:
 	./scripts/stop.sh
 
+.PHONY: restart
+restart: down up
+
 .PHONY: build
 build:
 	docker-compose build

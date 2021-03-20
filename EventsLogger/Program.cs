@@ -1,8 +1,11 @@
 ﻿using System;
-using EventsLogger.App.Configuration;
+using Common.Infrastructure.Event.MessageBroker;
+using Common.Infrastructure.Nats.MessageBroker;
+using EventsLogger.App.Event;
+using EventsLogger.Infrastructure.Configuration;
 using EventsLogger.App.Handler;
 using EventsLogger.App.Logger;
-using EventsLogger.Infrastructure.Nats;
+using EventsLogger.Infrastructure.Event;
 
 namespace EventsLogger
 {
@@ -12,15 +15,14 @@ namespace EventsLogger
         {
             var config = GetConfig();
 
-            var eventSource = new NatsEventSource(new NatsEventSource.Config(
-                config.NatsUrl(),
-                "echo"
-            ));
+            var messageBroker = new NatsMessageBroker(config);
 
-            var logger = new ConsoleLogger<LoggingEventHandler.LogRecord>();
+            var eventDispatcher = new EventDispatcher(new EventChannelResolver(), messageBroker);
+
+            var logger = new ConsoleLogger<LoggingEventHandler.SimilarityCalculatedEventPayload>();
             var handler = new LoggingEventHandler(logger);
 
-            var subscription = eventSource.Subscribe(handler);
+            var subscription = eventDispatcher.Subscribe(Events.ValuatorSimilarityCalculated, handler);
             
             Console.WriteLine("EventsLogger started");
             Console.WriteLine("Press any key to stop");

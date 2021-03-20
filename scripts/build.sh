@@ -12,3 +12,5 @@ echo_call() {
 for app in ${APP_NAMES[*]} ; do
     echo_call "$PLATFORM_ROOT"/"$app"/bin/run-build.sh || exit
 done
+
+echo_call docker-compose build

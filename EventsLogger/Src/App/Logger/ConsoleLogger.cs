@@ -14,9 +14,9 @@ namespace EventsLogger.App.Logger
                 this.payload = payload;
             }
 
-            private string timestamp { get; }
-            private string level { get; }
-            private TMessage payload { get; }
+            public string timestamp { get; }
+            public string level { get; }
+            public TMessage payload { get; }
         }
         
         public void Info(TMessage msg)
