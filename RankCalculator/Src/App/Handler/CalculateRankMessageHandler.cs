@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using RankCalculator.Infrastructure.Storage;
+using Common.Infrastructure.Storage;
 
 namespace RankCalculator.App.Handler
 {

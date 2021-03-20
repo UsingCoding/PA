@@ -6,6 +6,7 @@ export $(egrep -v '^#' ../.env | xargs)
 
 pushd ../RankCalculator > /dev/null || exit
 
+./bin/run-build.sh
 docker-compose build
 
 docker-compose run \

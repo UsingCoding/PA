@@ -8,7 +8,10 @@ namespace RankCalculator.App.Configuration
         string IConfigurationProvider.RedisHost() => GetFromEnv(RedisHost);
 
         string IConfigurationProvider.NatsUrl() => GetFromEnv(NatsUrl);
-        
+
+        string IConfigurationProvider.ProcessingRankChannel() => "valuator.processing.rank";
+
+        string IConfigurationProvider.RankCalculatorQueue() => "rank_calculator";
 
         private string GetFromEnv(string key)
         {

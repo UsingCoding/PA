@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Common.Infrastructure.Storage;
 using RankCalculator.App.Configuration;
-using RankCalculator.Infrastructure.Storage;
 using StackExchange.Redis;
 
-namespace RankCalculator.Infrastructure.Redis
+namespace Common.Infrastructure.Redis
 {
     public class RedisStorage : IStorage
     {

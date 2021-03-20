@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RankCalculator.Infrastructure.Storage
+namespace Common.Infrastructure.Storage
 {
     public interface IStorage
     {
