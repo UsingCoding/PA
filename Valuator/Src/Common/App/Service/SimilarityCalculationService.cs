@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
+using Common.Infrastructure.Storage;
 using Valuator.Common.App.Event;
-using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Common.App.Service
 {

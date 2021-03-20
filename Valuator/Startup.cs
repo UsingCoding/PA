@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Valuator.Common.App.Configuration;
 using Valuator.Common.App.Event;
 using Valuator.Common.App.Service;
 using Valuator.Infrastructure.Configuration;

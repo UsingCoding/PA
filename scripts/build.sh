@@ -2,7 +2,7 @@
 
 PLATFORM_ROOT="$(dirname "$(dirname "$(readlink -fm "$0")")")"
 
-APP_NAMES=(Valuator RankCalculator) 
+APP_NAMES=(Valuator RankCalculator EventsLogger) 
 
 echo_call() {
   echo "$@"
