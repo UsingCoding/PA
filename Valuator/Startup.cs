@@ -1,3 +1,6 @@
+using Common.App.Event;
+using Common.Infrastructure.Event.MessageBroker;
+using Common.Infrastructure.MessageBroker;
 using Common.Infrastructure.Redis;
 using Common.Infrastructure.Storage;
 using Microsoft.AspNetCore.Builder;
@@ -6,12 +9,11 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Valuator.Common.App.Event;
 using Valuator.Common.App.Service;
 using Valuator.Infrastructure.Configuration;
-using Valuator.Infrastructure.MessageBroker;
-using Valuator.Infrastructure.Nats;
+using Valuator.Infrastructure.Event;
 using IConfigurationProvider = Valuator.Infrastructure.Configuration.IConfigurationProvider;
+using NatsMessageBroker = Common.Infrastructure.Nats.MessageBroker.NatsMessageBroker;
 
 namespace Valuator
 {
@@ -30,10 +32,12 @@ namespace Valuator
             services.AddRazorPages();
             services.AddScoped<IConfigurationProvider, Config>();
             services.AddScoped<RedisStorage.IConfig, Config>();
+            services.AddScoped<NatsMessageBroker.IConfig, Config>();
             services.AddScoped<IStorage, RedisStorage>();
             services.AddScoped<IMessageBroker, NatsMessageBroker>();
             services.AddScoped<CalculateRankSchedulerService, CalculateRankSchedulerService>();
-            services.AddScoped<IEventDispatcher, MessageBrokerEventDispatcher>();
+            services.AddScoped<EventDispatcher.IEventChannelResolver, EventChannelResolver>();
+            services.AddScoped<IEventDispatcher, EventDispatcher>();
             services.AddScoped<SimilarityCalculationService, SimilarityCalculationService>();
         }
 

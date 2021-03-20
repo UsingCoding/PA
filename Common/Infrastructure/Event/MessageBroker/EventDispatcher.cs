@@ -23,7 +23,8 @@ namespace Common.Infrastructure.Event.MessageBroker
 
         public void Dispatch(App.Event.Event e)
         {
-            throw new System.NotImplementedException();
+            var channel = _resolver.ResolveChannel(e.Type);
+            _messageBroker.Publish(channel, Encoding.UTF8.GetBytes(JsonSerializer.Serialize(e)));
         }
 
         public IEventSource.ISubscription Subscribe(string eventType, IEventSource.ISubscriber subscriber)

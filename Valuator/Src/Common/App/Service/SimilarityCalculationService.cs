@@ -1,7 +1,6 @@
-using System;
 using System.Text.Json;
+using Common.App.Event;
 using Common.Infrastructure.Storage;
-using Valuator.Common.App.Event;
 
 namespace Valuator.Common.App.Service
 {
@@ -40,7 +39,7 @@ namespace Valuator.Common.App.Service
 
             var serializedEventPayload = JsonSerializer.Serialize(new EventPayload(id, isSimilar));
 
-            var e = new IEventDispatcher.Event(SimilarityCalculatedEventType, serializedEventPayload);
+            var e = new Event(SimilarityCalculatedEventType, serializedEventPayload);
             
             _eventDispatcher.Dispatch(e);
             
