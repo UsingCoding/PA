@@ -1,3 +1,5 @@
+using Common.Infrastructure.Redis;
+using Common.Infrastructure.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -7,11 +9,10 @@ using Microsoft.Extensions.Hosting;
 using Valuator.Common.App.Configuration;
 using Valuator.Common.App.Event;
 using Valuator.Common.App.Service;
+using Valuator.Infrastructure.Configuration;
 using Valuator.Infrastructure.MessageBroker;
 using Valuator.Infrastructure.Nats;
-using Valuator.Infrastructure.Redis;
-using Valuator.Infrastructure.Storage;
-using IConfigurationProvider = Valuator.Common.App.Configuration.IConfigurationProvider;
+using IConfigurationProvider = Valuator.Infrastructure.Configuration.IConfigurationProvider;
 
 namespace Valuator
 {
@@ -29,6 +30,7 @@ namespace Valuator
         {
             services.AddRazorPages();
             services.AddScoped<IConfigurationProvider, Config>();
+            services.AddScoped<RedisStorage.IConfig, Config>();
             services.AddScoped<IStorage, RedisStorage>();
             services.AddScoped<IMessageBroker, NatsMessageBroker>();
             services.AddScoped<CalculateRankSchedulerService, CalculateRankSchedulerService>();

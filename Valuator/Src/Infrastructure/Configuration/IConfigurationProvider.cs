@@ -1,8 +1,7 @@
-namespace RankCalculator.App.Configuration
+namespace Valuator.Infrastructure.Configuration
 {
     public interface IConfigurationProvider
     {
-        public string RedisHost();
         public string NatsUrl();
     }
 }

@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
-using RankCalculator.App.Configuration;
-using RankCalculator.Infrastructure.Storage;
+using Common.Infrastructure.Storage;
 using StackExchange.Redis;
 
-namespace RankCalculator.Infrastructure.Redis
+namespace Common.Infrastructure.Redis
 {
     public class RedisStorage : IStorage
     {
+        public interface IConfig
+        {
+            public string RedisHost();
+        }
+        
         private readonly IDatabase _db;
         
-        public RedisStorage(IConfigurationProvider configurationProvider)
+        public RedisStorage(IConfig config)
         {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(configurationProvider.RedisHost());
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(config.RedisHost());
             _db = redis.GetDatabase();
         }
 

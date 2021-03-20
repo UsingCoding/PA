@@ -9,4 +9,46 @@
     <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\Common\.gitignore">
+      <Link>Common\.gitignore</Link>
+    </Content>
+    <Content Include="..\Common\Common.csproj">
+      <Link>Common\Common.csproj</Link>
+    </Content>
+    <Content Include="..\Common\obj\Common.csproj.nuget.dgspec.json">
+      <Link>Common\obj\Common.csproj.nuget.dgspec.json</Link>
+    </Content>
+    <Content Include="..\Common\obj\Common.csproj.nuget.g.props">
+      <Link>Common\obj\Common.csproj.nuget.g.props</Link>
+    </Content>
+    <Content Include="..\Common\obj\Common.csproj.nuget.g.targets">
+      <Link>Common\obj\Common.csproj.nuget.g.targets</Link>
+    </Content>
+    <Content Include="..\Common\obj\project.assets.json">
+      <Link>Common\obj\project.assets.json</Link>
+    </Content>
+    <Content Include="..\Common\obj\project.nuget.cache">
+      <Link>Common\obj\project.nuget.cache</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Common\App\Event\IEventSource.cs">
+      <Link>Common\App\Event\IEventSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Redis\RedisStorage.cs">
+      <Link>Common\Infrastructure\Redis\RedisStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Infrastructure\Storage\IStorage.cs">
+      <Link>Common\Infrastructure\Storage\IStorage.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="..\Common\Infrastructure\Event">
+      <Link>Common\Infrastructure\Event</Link>
+    </Folder>
+  </ItemGroup>
+
 </Project>

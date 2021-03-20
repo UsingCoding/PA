@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using NATS.Client;
-using Valuator.Common.App.Configuration;
+using Valuator.Infrastructure.Configuration;
 using Valuator.Infrastructure.MessageBroker;
 
 namespace Valuator.Infrastructure.Nats

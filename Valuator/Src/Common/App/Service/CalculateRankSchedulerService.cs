@@ -1,8 +1,8 @@
 using System;
 using System.Text;
 using System.Text.Json;
+using Common.Infrastructure.Storage;
 using Valuator.Infrastructure.MessageBroker;
-using Valuator.Infrastructure.Storage;
 
 namespace Valuator.Common.App.Service
 {
