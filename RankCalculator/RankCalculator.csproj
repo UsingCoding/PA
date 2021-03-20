@@ -11,9 +11,6 @@
 
   <ItemGroup>
     <Compile Remove="obj\**" />
-    <Compile Include="..\Common\App\Event\IEventSource.cs">
-      <Link>Common\App\Event\IEventSource.cs</Link>
-    </Compile>
     <Compile Include="..\Common\Infrastructure\Redis\RedisStorage.cs">
       <Link>Common\Infrastructure\Redis\RedisStorage.cs</Link>
     </Compile>
@@ -51,11 +48,5 @@
       <Link>Common\obj\project.nuget.cache</Link>
     </Content>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="..\Common\Infrastructure\Event">
-      <Link>Common\Infrastructure\Event</Link>
-    </Folder>
-  </ItemGroup>
-
+  
 </Project>

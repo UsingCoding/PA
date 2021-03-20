@@ -34,21 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Common\App\Event\IEventSource.cs">
-      <Link>Common\App\Event\IEventSource.cs</Link>
-    </Compile>
     <Compile Include="..\Common\Infrastructure\Redis\RedisStorage.cs">
       <Link>Common\Infrastructure\Redis\RedisStorage.cs</Link>
     </Compile>
     <Compile Include="..\Common\Infrastructure\Storage\IStorage.cs">
       <Link>Common\Infrastructure\Storage\IStorage.cs</Link>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="..\Common\Infrastructure\Event">
-      <Link>Common\Infrastructure\Event</Link>
-    </Folder>
   </ItemGroup>
 
 </Project>
