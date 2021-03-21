@@ -14,29 +14,38 @@ namespace EventsLogger
         public static void Main(string[] args)
         {
             var config = GetConfig();
-
-            var messageBroker = new NatsMessageBroker(config);
-
-            var eventDispatcher = new EventDispatcher(new EventChannelResolver(), messageBroker);
-
-            var logger = new ConsoleLogger<LoggingEventHandler.SimilarityCalculatedEventPayload>();
-            var handler = new LoggingEventHandler(logger);
-
-            var subscription = eventDispatcher.Subscribe(Events.ValuatorSimilarityCalculated, handler);
             
-            Console.WriteLine("EventsLogger started");
-            Console.WriteLine("Press any key to stop");
+            var eventDispatcher = ResolveEventDispatcher(config);
+
+            var similarityCalculatedEventLogger = new ConsoleLogger<LoggingEventHandler.SimilarityCalculatedEventPayload>();
+            var rankCalculatedEventLogger = new ConsoleLogger<LoggingEventHandler.RankCalculatedEventPayload>();
+            var logger = new ConsoleStringLogger();
+
+            var handler = new LoggingEventHandler(similarityCalculatedEventLogger, rankCalculatedEventLogger, logger);
+
+            var similarityCalculatedEventSubscription = eventDispatcher.Subscribe(Events.ValuatorSimilarityCalculated, handler);
+            var rankCalculatedEventSubscription = eventDispatcher.Subscribe(Events.RankCalculatorRankCalculated, handler);
             
+            logger.Info("EventsLogger started");
+
             Console.ReadLine();
             
-            subscription.Unsubscribe();
+            similarityCalculatedEventSubscription.Unsubscribe();
+            rankCalculatedEventSubscription.Unsubscribe();
             
-            Console.WriteLine("Service stopped");
+            logger.Info("Service stopped");
         }
 
         private static IConfigurationProvider GetConfig()
         {
             return new Config();
+        }
+
+        private static EventDispatcher ResolveEventDispatcher(NatsMessageBroker.IConfig config)
+        {
+            var messageBroker = new NatsMessageBroker(config);
+
+            return new EventDispatcher(new EventChannelResolver(), messageBroker);
         }
     }
 }

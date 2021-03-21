@@ -1,3 +1,4 @@
+using Common.Infrastructure.Nats.MessageBroker;
 using Common.Infrastructure.Redis;
 
 namespace RankCalculator.Infrastructure.Configuration
@@ -9,7 +10,7 @@ namespace RankCalculator.Infrastructure.Configuration
 
         string RedisStorage.IConfig.RedisHost() => GetFromEnv(RedisHost);
 
-        string IConfigurationProvider.NatsUrl() => GetFromEnv(NatsUrl);
+        string NatsMessageBroker.IConfig.NatsUrl() => GetFromEnv(NatsUrl);
 
         string IConfigurationProvider.ProcessingRankChannel() => "valuator.processing.rank";
 

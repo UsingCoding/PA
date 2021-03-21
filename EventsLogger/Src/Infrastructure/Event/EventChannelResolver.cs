@@ -7,7 +7,7 @@ namespace EventsLogger.Infrastructure.Event
     public struct EventsChannels
     {
         public const string ValuatorEventChannel = "valuator.event.similarity_calculated";
-        public const string RankCalculatorEventChannel = "rank_calculator.event";
+        public const string RankCalculatorEventChannel = "rank_calculator.event.rank_calculated";
     }
     
     public class EventChannelResolver : EventDispatcher.IEventChannelResolver

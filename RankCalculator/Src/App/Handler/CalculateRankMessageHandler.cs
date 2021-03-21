@@ -2,13 +2,16 @@ using System;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Common.App.Event;
 using Common.Infrastructure.Storage;
+using RankCalculator.App.Event;
 
 namespace RankCalculator.App.Handler
 {
     public class CalculateRankMessageHandler
     {
         private readonly IStorage _storage;
+        private readonly IEventDispatcher _eventDispatcher;
         
         private class CalculateRankTaskData
         {
@@ -25,9 +28,10 @@ namespace RankCalculator.App.Handler
             public bool Handled { get; set; } = false;
         }
 
-        public CalculateRankMessageHandler(IStorage storage)
+        public CalculateRankMessageHandler(IStorage storage, IEventDispatcher eventDispatcher)
         {
             _storage = storage;
+            _eventDispatcher = eventDispatcher;
         }
 
         public void Handle(byte[] data)
@@ -56,8 +60,20 @@ namespace RankCalculator.App.Handler
 
             serializedTaskData = JsonSerializer.Serialize(taskData);
             _storage.Save(taskId, serializedTaskData);
+
+            var rank = CalculateRank(taskData.Text);
+            _storage.Save(taskData.SaveRankId, rank.ToString());
             
-            _storage.Save(taskData.SaveRankId, CalculateRank(taskData.Text).ToString());
+            PublishEvent("FLEX", rank);
+        }
+
+        private void PublishEvent(string textId, double rank)
+        {
+            var payload = new RankCalculatedEventPayload(textId, rank);
+            
+            var e = new Common.App.Event.Event(Events.RankCalculated, JsonSerializer.Serialize(payload));
+            
+            _eventDispatcher.Dispatch(e);
         }
 
         private static double CalculateRank(string text)

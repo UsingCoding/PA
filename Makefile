@@ -9,6 +9,10 @@ down:
 .PHONY: restart
 restart: down up
 
+.PHONY: run-rank-calculator
+run-rank-calculator:
+	./scripts/rank-calculator-run.sh
+
 .PHONY: build
 build:
 	docker-compose build
