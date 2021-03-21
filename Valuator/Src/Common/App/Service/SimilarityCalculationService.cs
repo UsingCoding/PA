@@ -29,7 +29,7 @@ namespace Valuator.Common.App.Service
             _eventDispatcher = eventDispatcher;
         }
 
-        public bool CalculateSimilarity(string text, string id)
+        public void CalculateSimilarity(string text, string id, string textId)
         {
             var texts = _storage.GetAllTexts();
             var isSimilar = texts.Exists(value => value == text);
@@ -37,13 +37,11 @@ namespace Valuator.Common.App.Service
             var similarityKey = "SIMILARITY-" + id;
             _storage.Save(similarityKey, isSimilar ? "1" : "0");
 
-            var serializedEventPayload = JsonSerializer.Serialize(new EventPayload(id, isSimilar));
+            var serializedEventPayload = JsonSerializer.Serialize(new EventPayload(textId, isSimilar));
 
             var e = new Event(SimilarityCalculatedEventType, serializedEventPayload);
             
             _eventDispatcher.Dispatch(e);
-            
-            return isSimilar;
         }
     }
 }

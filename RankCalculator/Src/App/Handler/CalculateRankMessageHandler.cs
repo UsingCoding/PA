@@ -15,15 +15,14 @@ namespace RankCalculator.App.Handler
         
         private class CalculateRankTaskData
         {
-            public CalculateRankTaskData(string text, string saveRankId)
+            public CalculateRankTaskData(string textId, string saveRankId)
             {
-                Text = text;
+                TextId = textId;
                 SaveRankId = saveRankId;
             }
 
-            public string Text { get; }
-            
-            public string SaveRankId { get; }
+            public string TextId { get; }
+            public string SaveRankId { get; set; }
 
             public bool Handled { get; set; } = false;
         }
@@ -61,10 +60,18 @@ namespace RankCalculator.App.Handler
             serializedTaskData = JsonSerializer.Serialize(taskData);
             _storage.Save(taskId, serializedTaskData);
 
-            var rank = CalculateRank(taskData.Text);
+            var text = _storage.Get(taskData.TextId);
+
+            if (text == null)
+            {
+                Console.WriteLine("No text found by - " + taskData.TextId);
+                return;
+            }
+
+            var rank = CalculateRank(text);
             _storage.Save(taskData.SaveRankId, rank.ToString());
             
-            PublishEvent("FLEX", rank);
+            PublishEvent(taskData.TextId, rank);
         }
 
         private void PublishEvent(string textId, double rank)

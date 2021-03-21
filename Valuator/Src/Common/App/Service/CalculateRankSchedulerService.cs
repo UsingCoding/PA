@@ -10,13 +10,13 @@ namespace Valuator.Common.App.Service
   {
       private class CalculateRankTaskData
       {
-          public CalculateRankTaskData(string text, string saveRankId)
+          public CalculateRankTaskData(string textId, string saveRankId)
           {
-              Text = text;
+              TextId = textId;
               SaveRankId = saveRankId;
           }
 
-          public string Text { get; }
+          public string TextId { get; }
           public string SaveRankId { get; set; }
 
           public bool Handled { get; set; } = false;
@@ -35,11 +35,9 @@ namespace Valuator.Common.App.Service
           _messageBroker = messageBroker;
       }
 
-      public void PostCalculateRankMessage(string text, string textId)
+      public void PostCalculateRankMessage(string id, string textId)
       {
-          var id = Guid.NewGuid().ToString();
-
-          var taskData = new CalculateRankTaskData(text, SaveRankKeyPrefix + textId);
+          var taskData = new CalculateRankTaskData(textId, SaveRankKeyPrefix + id);
 
           var serializedTaskData = JsonSerializer.Serialize(taskData);
 

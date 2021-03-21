@@ -42,9 +42,9 @@ namespace Valuator.Pages
             var textId = "TEXT-" + id;
             _storage.Save(textId, text);
 
-            _calculateRankSchedulerService.PostCalculateRankMessage(text, id);
+            _calculateRankSchedulerService.PostCalculateRankMessage(id, textId);
 
-            _similarityCalculationService.CalculateSimilarity(text, id);
+            _similarityCalculationService.CalculateSimilarity(text, id, textId);
 
             return Redirect($"summary?id={id}");
         }
