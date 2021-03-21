@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Common.App.Event;
+using Common.App.Logger;
 using EventsLogger.App.Event;
-using EventsLogger.App.Logger;
 
 namespace EventsLogger.App.Handler
 {

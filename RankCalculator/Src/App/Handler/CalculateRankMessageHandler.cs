@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Common.App.Event;
+using Common.App.Logger;
 using Common.Infrastructure.Storage;
 using RankCalculator.App.Event;
 
@@ -12,6 +13,7 @@ namespace RankCalculator.App.Handler
     {
         private readonly IStorage _storage;
         private readonly IEventDispatcher _eventDispatcher;
+        private readonly IStringLogger _logger;
         
         private class CalculateRankTaskData
         {
@@ -27,17 +29,16 @@ namespace RankCalculator.App.Handler
             public bool Handled { get; set; } = false;
         }
 
-        public CalculateRankMessageHandler(IStorage storage, IEventDispatcher eventDispatcher)
+        public CalculateRankMessageHandler(IStorage storage, IEventDispatcher eventDispatcher, IStringLogger logger)
         {
             _storage = storage;
             _eventDispatcher = eventDispatcher;
+            _logger = logger;
         }
 
         public void Handle(byte[] data)
         {
             var taskId = Encoding.UTF8.GetString(data);
-                 
-            Console.WriteLine("Processing task - {0}", taskId);
 
             var serializedTaskData = _storage.Get(taskId);
             
@@ -45,13 +46,13 @@ namespace RankCalculator.App.Handler
 
             if (taskData == null)
             {
-                Console.WriteLine("No task data found for - {0}", taskId);
+                _logger.Error("No task data found for - " +taskId);
                 return;
             }
 
             if (taskData.Handled)
             {
-                Console.WriteLine("Task - {0} - already handled", taskId);
+                _logger.Error("Task - " + taskId + " - already handled");
                 return;
             }
 
@@ -64,7 +65,7 @@ namespace RankCalculator.App.Handler
 
             if (text == null)
             {
-                Console.WriteLine("No text found by - " + taskData.TextId);
+                _logger.Error("No text found by - " + taskData.TextId);
                 return;
             }
 
@@ -72,6 +73,8 @@ namespace RankCalculator.App.Handler
             _storage.Save(taskData.SaveRankId, rank.ToString());
             
             PublishEvent(taskData.TextId, rank);
+            
+            _logger.Info("Task processed  - " + taskId);
         }
 
         private void PublishEvent(string textId, double rank)

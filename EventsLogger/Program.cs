@@ -1,10 +1,10 @@
 ﻿using System;
+using Common.App.Logger;
 using Common.Infrastructure.Event.MessageBroker;
 using Common.Infrastructure.Nats.MessageBroker;
 using EventsLogger.App.Event;
 using EventsLogger.Infrastructure.Configuration;
 using EventsLogger.App.Handler;
-using EventsLogger.App.Logger;
 using EventsLogger.Infrastructure.Event;
 
 namespace EventsLogger
@@ -26,7 +26,7 @@ namespace EventsLogger
             var similarityCalculatedEventSubscription = eventDispatcher.Subscribe(Events.ValuatorSimilarityCalculated, handler);
             var rankCalculatedEventSubscription = eventDispatcher.Subscribe(Events.RankCalculatorRankCalculated, handler);
             
-            logger.Info("EventsLogger started");
+            logger.Info("Service started");
 
             Console.ReadLine();
             

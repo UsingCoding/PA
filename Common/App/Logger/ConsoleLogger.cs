@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json;
 
-namespace EventsLogger.App.Logger
+namespace Common.App.Logger
 {
     public class ConsoleLogger<TMessage> : ILogger<TMessage>
     {

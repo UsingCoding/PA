@@ -20,6 +20,15 @@
     <Compile Include="..\Common\App\Event\IEventSource.cs">
       <Link>Common\App\Event\IEventSource.cs</Link>
     </Compile>
+    <Compile Include="..\Common\App\Logger\ConsoleLogger.cs">
+      <Link>Common\App\Logger\ConsoleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\App\Logger\ConsoleStringLogger.cs">
+      <Link>Common\App\Logger\ConsoleStringLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\App\Logger\ILogger.cs">
+      <Link>Common\App\Logger\ILogger.cs</Link>
+    </Compile>
     <Compile Include="..\Common\Infrastructure\Event\MessageBroker\EventDispatcher.cs">
       <Link>Common\Infrastructure\Event\MessageBroker\EventDispatcher.cs</Link>
     </Compile>

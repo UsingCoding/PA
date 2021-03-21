@@ -1,4 +1,4 @@
-namespace EventsLogger.App.Logger
+namespace Common.App.Logger
 {
     public interface ILogger<TMessage>
     {
