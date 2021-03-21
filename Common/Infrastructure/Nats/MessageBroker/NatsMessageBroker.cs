@@ -40,7 +40,20 @@ namespace Common.Infrastructure.Nats.MessageBroker
 
             return new NatsSubscription(subscription);
         }
-        
+
+        public IMessageBroker.ISubscription Subscribe(string channel, string queueName, IMessageBroker.ISubscriber subscriber)
+        {
+            var conn = GetConnection();
+            var subscription = conn.SubscribeAsync(channel, queueName, (sender, args) =>
+            {
+                subscriber.Handle(args.Message.Data);
+            });
+
+            subscription.Start();
+
+            return new NatsSubscription(subscription);
+        }
+
         public void Deconstruct()
         {
             _connection.Drain();

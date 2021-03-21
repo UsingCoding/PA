@@ -6,7 +6,6 @@ using Common.Infrastructure.Redis;
 using RankCalculator.Infrastructure.Configuration;
 using RankCalculator.App.Handler;
 using RankCalculator.Infrastructure.Event;
-using RankCalculator.Infrastructure.Nats;
 
 namespace RankCalculator
 {
@@ -18,13 +17,14 @@ namespace RankCalculator
             var logger = new ConsoleStringLogger();
             
             var storage = new RedisStorage(config);
-            var messageBroker = new NatsMessageSubscriber(config);
 
-            var imessageBroker = new NatsMessageBroker(config);
-            var eventDispatcher = new EventDispatcher(new EventChannelResolver(), imessageBroker);
+            var messageBroker = new NatsMessageBroker(config);
+            
+            var eventDispatcher = new EventDispatcher(new EventChannelResolver(), messageBroker);
+            
             var handler = new CalculateRankMessageHandler(storage, eventDispatcher, logger);
                 
-             var subscription = messageBroker.Subscribe(config.ProcessingRankChannel(), config.RankCalculatorQueue(), handler.Handle);
+             var subscription = messageBroker.Subscribe(config.ProcessingRankChannel(), config.RankCalculatorQueue(), handler);
              
              logger.Info("RankCalculator started"); 
              Console.WriteLine("Press Enter to exit");

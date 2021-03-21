@@ -4,12 +4,13 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Common.App.Event;
 using Common.App.Logger;
+using Common.Infrastructure.MessageBroker;
 using Common.Infrastructure.Storage;
 using RankCalculator.App.Event;
 
 namespace RankCalculator.App.Handler
 {
-    public class CalculateRankMessageHandler
+    public class CalculateRankMessageHandler : IMessageBroker.ISubscriber
     {
         private readonly IStorage _storage;
         private readonly IEventDispatcher _eventDispatcher;
