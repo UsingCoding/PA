@@ -78,7 +78,7 @@ services:
             - 80:80
             - 443:443
 
-    redis:
+    redis: &redis
         image: redis
         container_name: valuator-redis
         networks:
@@ -91,6 +91,33 @@ services:
             - "/usr/local/etc/redis/"
         ports:
             - "6379:6379"
+
+    redis-ru:
+        <<: *redis
+        container_name: valuator-redis-ru
+        volumes:
+            - "redis-ru-dev-data:/data/storage"
+            - "./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf"
+        ports:
+            - "6380:6379"
+
+    redis-eu:
+        <<: *redis
+        container_name: valuator-redis-eu
+        volumes:
+            - "redis-eu-dev-data:/data/storage"
+            - "./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf"
+        ports:
+            - "6381:6379"
+
+    redis-other:
+        <<: *redis
+        container_name: valuator-redis-other
+        volumes:
+            - "redis-other-dev-data:/data/storage"
+            - "./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf"
+        ports:
+            - "6382:6379"
     
     nats:
         image: nats
@@ -102,3 +129,6 @@ networks:
     valuator_net: 
 volumes: 
     redis-dev-data: 
+    redis-ru-dev-data: 
+    redis-eu-dev-data: 
+    redis-other-dev-data: 

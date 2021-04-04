@@ -33,14 +33,19 @@ namespace Valuator.Pages
 
         }
 
-        public IActionResult OnPost(string text)
+        public IActionResult OnPost(string text, string country)
         {
             _logger.LogDebug(text);
 
             var id = Guid.NewGuid().ToString();
+
+            var segmentId = GetSegmentIdByCountry(country);
+            _logger.LogDebug("LOOKUP: {0}, {1}", id, segmentId);
+            
+            _storage.SaveNewShardId(id, segmentId);
             
             var textId = "TEXT-" + id;
-            _storage.Save(textId, text);
+            _storage.Save(id, textId, text);
 
             _calculateRankSchedulerService.PostCalculateRankMessage(id, textId);
 
@@ -49,10 +54,21 @@ namespace Valuator.Pages
             return Redirect($"summary?id={id}");
         }
 
-        private bool IsSimilarity(string text)
+        private static string GetSegmentIdByCountry(string country)
         {
-            var texts = _storage.GetAllTexts();
-            return texts.Exists(value => value == text);
+            switch (country)
+            {
+                case "Russia":
+                    return IStorage.SegmentIdRu;
+                case "France":
+                case "Germany":
+                    return IStorage.SegmentIdEu;
+                case "USA":
+                case "India":
+                    return IStorage.SegmentIdOther;
+            }
+
+            throw new ArgumentException("Country " + country + " doesn't support");
         }
     }
 }

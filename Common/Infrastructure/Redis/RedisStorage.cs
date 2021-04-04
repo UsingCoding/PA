@@ -9,40 +9,73 @@ namespace Common.Infrastructure.Redis
     {
         public interface IConfig
         {
-            public string RedisHost();
+            public string RedisMainDbHost();
+            public string RedisRuDbHost();
+            public string RedistEuHost();
+            public string RedistOtherHost();
         }
         
-        private readonly IDatabase _db;
-        
+        private readonly IConnectionMultiplexer _mainConn;
+        private readonly IConnectionMultiplexer _ruConn;
+        private readonly IConnectionMultiplexer _euConn;
+        private readonly IConnectionMultiplexer _otherConn;
+
         public RedisStorage(IConfig config)
         {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(config.RedisHost());
-            _db = redis.GetDatabase();
+            _mainConn = ConnectionMultiplexer.Connect(config.RedisMainDbHost());
+            _ruConn = ConnectionMultiplexer.Connect(config.RedisRuDbHost());
+            _euConn = ConnectionMultiplexer.Connect(config.RedistEuHost());
+            _otherConn = ConnectionMultiplexer.Connect(config.RedistOtherHost());
         }
 
-        public void Save(string key, string value)
+        public void Save(string shardKey, string key, string value)
         {
             if (key == null || value == null) return;
             
-            _db.StringSet(key, value);
+            GetDatabase(shardKey).StringSet(key, value);
         }
 
-        public string Get(string key)
+        public void SaveNewShardId(string shardKey, string segmentId)
+        {
+            var db = _mainConn.GetDatabase();
+            db.StringSet(shardKey, segmentId);
+        }
+
+        public string Get(string shardKey, string key)
         {
             if (key == null) throw new InvalidOperationException("Trying to get null from redis");
             
-            return _db.StringGet(key);
+            return GetDatabase(shardKey).StringGet(key);
         }
 
         public List<string> GetAllTexts()
         {
-            var textsKeys = (RedisResult[])_db.Execute("keys", "TEXT-*");
-            var texts = new List<string>();
-            foreach (RedisResult key in textsKeys)
+            // var db = GetDatabase()
+            // var textsKeys = (RedisResult[])db.Execute("keys", "TEXT-*");
+            // var texts = new List<string>();
+            // foreach (RedisResult key in textsKeys)
+            // {
+            //     texts.Add(Get(key.ToString()));
+            // }
+            // return texts;
+            return new();
+        }
+
+        private IDatabase GetDatabase(string shardKey)
+        {
+            var db = _mainConn.GetDatabase();
+            if (!db.KeyExists(shardKey))
             {
-                texts.Add(Get(key.ToString()));
+                throw new ArgumentException("Shard key " + shardKey + " doesn't exist");
             }
-            return texts;
+            var segmentId = db.StringGet(shardKey).ToString();
+            return segmentId switch
+            {
+                IStorage.SegmentIdRu => _ruConn.GetDatabase(),
+                IStorage.SegmentIdEu => _euConn.GetDatabase(),
+                IStorage.SegmentIdOther => _otherConn.GetDatabase(),
+                _ => throw new ArgumentException("Shard key " + shardKey + " doesn't exist")
+            };
         }
     }
 }

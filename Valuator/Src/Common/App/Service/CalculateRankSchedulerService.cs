@@ -43,7 +43,7 @@ namespace Valuator.Common.App.Service
 
           var taskId = TaskKeyPrefix + id;
           
-          _storage.Save(taskId, serializedTaskData);
+          _storage.Save(id, taskId, serializedTaskData);
           
           _messageBroker.Publish(RankCalculatorChannel, Encoding.UTF8.GetBytes(taskId));
       }

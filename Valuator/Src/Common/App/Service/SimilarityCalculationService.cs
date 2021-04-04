@@ -35,7 +35,7 @@ namespace Valuator.Common.App.Service
             var isSimilar = texts.Exists(value => value == text);
             
             var similarityKey = "SIMILARITY-" + id;
-            _storage.Save(similarityKey, isSimilar ? "1" : "0");
+            _storage.Save(id, similarityKey, isSimilar ? "1" : "0");
 
             var serializedEventPayload = JsonSerializer.Serialize(new EventPayload(textId, isSimilar));
 

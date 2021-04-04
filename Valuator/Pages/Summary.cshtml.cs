@@ -25,8 +25,8 @@ namespace Valuator.Pages
         {
             _logger.LogDebug(id);
 
-            Rank = _storage.Get(RankPrefix + id);
-            Similarity = _storage.Get(SimilarityPrefix + id);
+            Rank = _storage.Get(id, RankPrefix + id);
+            Similarity = _storage.Get(id, SimilarityPrefix + id);
         }
     }
 }
