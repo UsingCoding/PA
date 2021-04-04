@@ -31,8 +31,7 @@ namespace Valuator.Common.App.Service
 
         public void CalculateSimilarity(string text, string id, string textId)
         {
-            var texts = _storage.GetAllTexts();
-            var isSimilar = texts.Exists(value => value == text);
+            var isSimilar = _storage.IsTextExists(text);
             
             var similarityKey = "SIMILARITY-" + id;
             _storage.Save(id, similarityKey, isSimilar ? "1" : "0");

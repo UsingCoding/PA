@@ -40,16 +40,17 @@ namespace Valuator.Pages
             var id = Guid.NewGuid().ToString();
 
             var segmentId = GetSegmentIdByCountry(country);
-            _logger.LogDebug("LOOKUP: {0}, {1}", id, segmentId);
-            
+            _logger.LogInformation("LOOKUP: {0}, {1}", id, segmentId);
+
             _storage.SaveNewShardId(id, segmentId);
             
             var textId = "TEXT-" + id;
-            _storage.Save(id, textId, text);
 
             _calculateRankSchedulerService.PostCalculateRankMessage(id, textId);
 
             _similarityCalculationService.CalculateSimilarity(text, id, textId);
+            
+            _storage.Save(id, textId, text);
 
             return Redirect($"summary?id={id}");
         }

@@ -12,6 +12,7 @@ namespace Common.Infrastructure.Storage
 
         public void SaveNewShardId(string shardKey, string segmentId);
         public string Get(string shardKey, string key);
-        public List<string> GetAllTexts();
+
+        public bool IsTextExists(string text);
     }
 }

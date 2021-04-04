@@ -48,17 +48,11 @@ namespace Common.Infrastructure.Redis
             return GetDatabase(shardKey).StringGet(key);
         }
 
-        public List<string> GetAllTexts()
+        public bool IsTextExists(string text)
         {
-            // var db = GetDatabase()
-            // var textsKeys = (RedisResult[])db.Execute("keys", "TEXT-*");
-            // var texts = new List<string>();
-            // foreach (RedisResult key in textsKeys)
-            // {
-            //     texts.Add(Get(key.ToString()));
-            // }
-            // return texts;
-            return new();
+            return GetAllTextsFromDb(_euConn).Exists(value => value == text) ||
+                   GetAllTextsFromDb(_ruConn).Exists(value => value == text) ||
+                   GetAllTextsFromDb(_otherConn).Exists(value => value == text);
         }
 
         private IDatabase GetDatabase(string shardKey)
@@ -76,6 +70,19 @@ namespace Common.Infrastructure.Redis
                 IStorage.SegmentIdOther => _otherConn.GetDatabase(),
                 _ => throw new ArgumentException("Shard key " + shardKey + " doesn't exist")
             };
+        }
+
+        private List<string> GetAllTextsFromDb(IConnectionMultiplexer connectionMultiplexer)
+        {
+            var database = connectionMultiplexer.GetDatabase();
+                
+            var textsKeys = (RedisResult[])database.Execute("keys", "TEXT-*");
+            var texts = new List<string>();
+            foreach (var key in textsKeys)
+            {
+                texts.Add(database.StringGet(key.ToString()));
+            }
+            return texts;
         }
     }
 }
