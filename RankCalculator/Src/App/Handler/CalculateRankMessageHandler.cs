@@ -29,6 +29,18 @@ namespace RankCalculator.App.Handler
 
             public bool Handled { get; set; } = false;
         }
+        
+        private struct Message
+        {
+            public Message(string id, string taskId)
+            {
+                Id = id;
+                TaskId = taskId;
+            }
+
+            public string Id { get; }
+            public string TaskId { get; }
+        }
 
         public CalculateRankMessageHandler(IStorage storage, IEventDispatcher eventDispatcher, IStringLogger logger)
         {
@@ -39,9 +51,12 @@ namespace RankCalculator.App.Handler
 
         public void Handle(byte[] data)
         {
-            var taskId = Encoding.UTF8.GetString(data);
+            var message = JsonSerializer.Deserialize<Message>(Encoding.UTF8.GetString(data));
 
-            var serializedTaskData = _storage.Get(taskId);
+            var id = message.Id;
+            var taskId = message.TaskId;
+
+            var serializedTaskData = _storage.Get(id, taskId);
             
             var taskData = JsonSerializer.Deserialize<CalculateRankTaskData>(serializedTaskData);
 
@@ -60,9 +75,9 @@ namespace RankCalculator.App.Handler
             taskData.Handled = true;
 
             serializedTaskData = JsonSerializer.Serialize(taskData);
-            _storage.Save(taskId, serializedTaskData);
+            _storage.Save(id, taskId, serializedTaskData);
 
-            var text = _storage.Get(taskData.TextId);
+            var text = _storage.Get(id, taskData.TextId);
 
             if (text == null)
             {
@@ -71,7 +86,7 @@ namespace RankCalculator.App.Handler
             }
 
             var rank = CalculateRank(text);
-            _storage.Save(taskData.SaveRankId, rank.ToString());
+            _storage.Save(id, taskData.SaveRankId, rank.ToString());
             
             PublishEvent(taskData.TextId, rank);
             

@@ -21,6 +21,18 @@ namespace Valuator.Common.App.Service
 
           public bool Handled { get; set; } = false;
       }
+      
+      private struct Message
+      {
+          public Message(string id, string taskId)
+          {
+              Id = id;
+              TaskId = taskId;
+          }
+
+          public string Id { get; }
+          public string TaskId { get; }
+      }
 
       private const string TaskKeyPrefix = "CALC-RANK-";
       private const string SaveRankKeyPrefix = "RANK-";
@@ -44,8 +56,10 @@ namespace Valuator.Common.App.Service
           var taskId = TaskKeyPrefix + id;
           
           _storage.Save(id, taskId, serializedTaskData);
+
+          var message = JsonSerializer.Serialize(new Message(id, taskId));
           
-          _messageBroker.Publish(RankCalculatorChannel, Encoding.UTF8.GetBytes(taskId));
+          _messageBroker.Publish(RankCalculatorChannel, Encoding.UTF8.GetBytes(message));
       }
   }
 }
