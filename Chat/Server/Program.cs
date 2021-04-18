@@ -48,11 +48,9 @@ namespace Server
 
                 while (true)
                 {
-                    Console.WriteLine("Ожидание соединения клиента...");
                     // ACCEPT
                     Socket handler = listener.Accept();
 
-                    Console.WriteLine("Получение данных...");
                     byte[] buf = new byte[1024];
                     string data = null;
                     while (true)
@@ -67,7 +65,7 @@ namespace Server
                         }
                     }
 
-                    Console.WriteLine("Полученный текст: {0}", data);
+                    Console.WriteLine("Message received: {0}", data);
                     
                     messagesHistory.Add(data);
 

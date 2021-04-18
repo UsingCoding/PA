@@ -44,8 +44,6 @@ namespace Client
                     // CONNECT
                     sender.Connect(remoteEp);
 
-                    Console.WriteLine("Удалённый адрес подключения сокета: {0}", sender.RemoteEndPoint);
-
                     // Подготовка данных к отправке
                     var msg = Encoding.UTF8.GetBytes(args.Message + "<EOF>");
 
@@ -71,7 +69,7 @@ namespace Client
                         dataPrevLength = data.Length;
                     }
 
-                    Console.WriteLine("Ответ: {0}", data);
+                    Console.WriteLine(data);
 
                     // RELEASE
                     sender.Shutdown(SocketShutdown.Both);
