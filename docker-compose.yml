@@ -19,27 +19,6 @@ services:
             valuator_net:
                 aliases:
                     - valuator-app-1    
-            
-    app-2: 
-        <<: *app
-        container_name: valuator-app-2
-        ports:
-            - 5001:5000
-        networks:
-            valuator_net:
-                aliases:
-                    - valuator-app-2
-
-    app-3:
-        <<: *app
-        container_name: valuator-app-3
-        ports:
-            - 5002:5000
-        networks:
-            valuator_net:
-                aliases:
-                    - valuator-app-3
-
 
     events-logger-1: &events-logger
         image: vadimmakerov/events-logger
@@ -52,8 +31,6 @@ services:
             - ./EventsLogger/.env
         depends_on:
             - app-1
-            - app-2
-            - app-3
         networks:
             - valuator_net
 
@@ -72,8 +49,6 @@ services:
             - ./nginx/log:/var/log/nginx
         depends_on: 
             - app-1
-            - app-2
-            - app-3
         ports:
             - 80:80
             - 443:443
