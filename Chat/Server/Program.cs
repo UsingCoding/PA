@@ -65,6 +65,8 @@ namespace Server
                         }
                     }
 
+                    data = data.Split("<EOF>")[0];
+
                     Console.WriteLine("Message received: {0}", data);
                     
                     messagesHistory.Add(data);
@@ -102,7 +104,6 @@ namespace Server
                 return;
             }
             
-            Console.WriteLine("Запуск сервера...");
             StartListening(args);
 
             Console.WriteLine("\nНажмите ENTER чтобы выйти...");
